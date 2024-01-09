@@ -1,11 +1,36 @@
+import 'package:chat_app/widgets/chat_bubble.dart';
 import 'package:flutter/material.dart';
 
-class ChatPage extends StatelessWidget {
+import 'models/chat_message_entity.dart';
 
+class ChatPage extends StatelessWidget {
   final chatMessageController = TextEditingController();
   ChatPage({Key? key}) : super(key: key);
 
-  void onSendButtonPressed (){
+  final List<ChatMessageEntity> _messages = [
+    ChatMessageEntity(
+        text: "First Text",
+        id: '1',
+        createAt: 1432561542,
+        author: Author(userName: "Deepali")),
+    ChatMessageEntity(
+        text: "Second Text",
+        id: '2',
+        createAt: 1432561542,
+        author: Author(userName: "Deepthi")),
+    ChatMessageEntity(
+        text: "Third Text",
+        id: '3',
+        createAt: 1432561542,
+        author: Author(userName: "Deepali")),
+    ChatMessageEntity(
+        text: "Fourth Text",
+        id: '4',
+        createAt: 1432561542,
+        author: Author(userName: "Deepthi")),
+  ];
+
+  void onSendButtonPressed() {
     print("chatMessage: ${chatMessageController.text}");
   }
 
@@ -17,7 +42,8 @@ class ChatPage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(text, style: const TextStyle(fontSize: 20, color: Colors.black)),
+            Text(text,
+                style: const TextStyle(fontSize: 20, color: Colors.black)),
             Image.network('https://m.media-amazon.com/images/I/71+0RN7OEML.png')
           ],
         ),
@@ -59,10 +85,13 @@ class ChatPage extends StatelessWidget {
         children: [
           Expanded(
             child: ListView.builder(
-                itemCount: 10,
+                itemCount: _messages.length,
                 itemBuilder: (context, index) {
-                  return getChatBubble(
-                      Alignment.centerLeft, "Hello, this is Deepali");
+                  return ChatBubble(
+                  alignment: index % 2 ==0 ? Alignment.centerLeft
+                      :  Alignment.centerRight,
+                      entity: _messages[index]
+                  );
                 }),
           ),
           Container(
@@ -71,7 +100,8 @@ class ChatPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(onPressed: () {}, icon: Icon(Icons.add)),
-                Expanded(child: TextField(
+                Expanded(
+                    child: TextField(
                   keyboardType: TextInputType.multiline,
                   maxLines: 5,
                   minLines: 1,
@@ -84,7 +114,8 @@ class ChatPage extends StatelessWidget {
                     border: InputBorder.none,
                   ),
                 )),
-                IconButton( onPressed: onSendButtonPressed, icon: Icon(Icons.send)),
+                IconButton(
+                    onPressed: onSendButtonPressed, icon: Icon(Icons.send)),
               ],
             ),
             decoration: const BoxDecoration(
