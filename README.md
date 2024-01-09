@@ -1,6 +1,6 @@
 # chat_app
 
-A new Flutter project for Linkedin Learning.
+A new Flutter project for Learning.
 
 ## Getting Started
 
